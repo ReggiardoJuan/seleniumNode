@@ -1,7 +1,7 @@
 changelog_type: "pull_request" # or 'pull_request'
 header_prefix: "Version:"
 commit_changelog: true
-include_unlabeled_changes: true
+include_unlabeled_changes: false
 unlabeled_group_title: "Unlabeled Changes"
 pull_request_title_regex: "^Release"
 version_regex: 'v?([0-9]{1,2})+[.]+([0-9]{1,2})+[.]+([0-9]{1,2})\s\(\d{1,2}-\d{1,2}-\d{4}\)'
