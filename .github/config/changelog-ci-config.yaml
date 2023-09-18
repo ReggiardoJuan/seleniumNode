@@ -1,4 +1,4 @@
-changelog_type: "commit_message" # or 'pull_request'
+changelog_type: "pull_request" # or 'pull_request'
 header_prefix: "Version:"
 commit_changelog: true
 include_unlabeled_changes: true
@@ -26,3 +26,7 @@ group_config:
       - docs
       - documentation
       - doc
+  - title: Tasks
+    labels:
+      - chore
+      - task
