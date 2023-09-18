@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [v1.0.2](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.2) - 2023-09-18 17:06:42
+
+Test
+
+### Bug Fixes
+
+- workflow:
+  - Typo ([d87cd02](https://github.com/ReggiardoJuan/seleniumNode/commit/d87cd021057943519f4793ee9286373a061d0818)) ([#2](https://github.com/ReggiardoJuan/seleniumNode/pull/2))
+  - Typo ([4532807](https://github.com/ReggiardoJuan/seleniumNode/commit/453280774a9abad115c656f353dac0c75cf9261e)) ([#2](https://github.com/ReggiardoJuan/seleniumNode/pull/2))
+
 ## [v1.0.1](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.1) - 2023-09-18 16:54:30
 
 Test
