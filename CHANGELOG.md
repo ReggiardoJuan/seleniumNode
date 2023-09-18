@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.5](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.5) - 2023-09-18 17:31:00
+
+Test
+
 ## [v1.0.4](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.4) - 2023-09-18 17:29:40
 
 Some description
