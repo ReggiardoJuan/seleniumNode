@@ -36,6 +36,7 @@ jobs:
         env:
           REPOSITORY: ${{ github.repository }}
           EVENT_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ secrets.TOKEN }}
 
       - id: task
         name: Get task-id from body comment
