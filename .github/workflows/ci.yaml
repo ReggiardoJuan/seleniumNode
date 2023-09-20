@@ -32,7 +32,7 @@ jobs:
         name: Get task id from associated pull request
         run: |
             pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
-            return $pullRequest"
+            echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
         env:
           REPOSITORY: ${{ github.repository }}
           EVENT_SHA: ${{ github.sha }}
@@ -40,14 +40,14 @@ jobs:
 
       - name: Get task id from associated pull request
         run: |
-              echo "${{ steps.get_pr.outputs }}"
+              echo "${{ env.PULL_REQUEST }}"
       - id: task
         name: Get task-id from body comment
         uses: actions/github-script@v6
         with:
           result-encoding: string
           script: |
-            const [{ body }] = ${{ steps.get_pr.outputs.result }};
+            const [{ body }] = ${{ env.PULL_REQUEST }};
             return body.match(/(?<=AB#)[0-9]+/)[0];
 
       - name: Print result
