@@ -31,28 +31,28 @@ jobs:
       - id: get_pr
         name: Get task id from associated pull request
         run: |
-            gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls
+            pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
+            return $pullRequest"
         env:
           REPOSITORY: ${{ github.repository }}
           EVENT_SHA: ${{ github.sha }}
           GH_TOKEN: ${{ secrets.TOKEN }}
 
-      - name: Print result
+      - name: Get task id from associated pull request
         run: |
-          echo "${{steps.get_pr.outputs.result}}"
+              echo "${{ steps.get_pr.outputs }}"
       - id: task
         name: Get task-id from body comment
         uses: actions/github-script@v6
         with:
           result-encoding: string
           script: |
-            const [{ body }] = ${{steps.get_pr.outputs.result}};
-            console.log(body)
+            const [{ body }] = ${{ steps.get_pr.outputs.result }};
             return body.match(/(?<=AB#)[0-9]+/)[0];
 
       - name: Print result
         run: |
-            echo "${{steps.task.outputs.result}}"
+            echo "${{ steps.task.outputs.result }}"
 
       # - name: Azure Login
       #   uses: azure/login@v1
