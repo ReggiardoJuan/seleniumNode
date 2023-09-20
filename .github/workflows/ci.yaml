@@ -33,4 +33,4 @@ jobs:
         run: |
             echo "${{toJson(github)}}"
             echo "\n\n"
-            echo "${{toJson(github.event)}}"
+            echo "${{toJson(github.event.push)}}"
