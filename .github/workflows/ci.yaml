@@ -28,9 +28,30 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
+      - id: get_pr
+        name: Get task id from associated pull request
+        uses: actions/github-script@v6
+        with:
+          result-encoding: string
+          script: |
+            const pullRequest = $(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls);
+            return pullRequest.body.match(/(?<=AB#)[0-9]+/)[0];
+        env:
+          REPOSITORY: ${{ github.repository }}
+          EVENT_SHA: ${{ github.sha }}
+
       - id: task
         name: Get context
         run: |
-            echo "${{toJson(github)}}"
-            echo "\n\n"
-            echo "${{toJson(github.event.push)}}"
+            echo "${{steps.get_pr.outputs.result}}"
+
+      # - name: Azure Login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_TOKEN }}
+      # - name: Azure CLI script
+      #   uses: azure/CLI@v1
+      #   with:
+      #     azcliversion: 2.30.0
+      #     inlineScript: |
+      #       az boards work-item update --id ${{steps.get_pr.outputs.result}} --org="https://dev.azure.com/ResideWorldwide" --state "Done" --fields System.History="Automatically transitioned from Github"
