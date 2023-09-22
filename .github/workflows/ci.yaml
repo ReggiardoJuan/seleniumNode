@@ -14,89 +14,32 @@ jobs:
     name: Check task number is present in PR description
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
         - name: Get context
           run: |
               echo "${{toJson(github)}}"
 
-  update_board_task_status:
-    name: Update board task status on PR merge
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-
-      - name: Install Dependencies
-        run: |
-          npm install azure-devops-node-api
-      - name: Run code
-        run: |
-          const azdev = require('azure-devops-node-api');
-
-          async function updateWorkItem(workItemId, env, newState) {
-            try {
-              const authHandler = azdev.getPersonalAccessTokenHandler(env.adoToken);
-              const connection = new azdev.WebApi(env.orgUrl, authHandler);
-              const client = await connection.getWorkItemTrackingApi();
-              const patchDocument = [
-                {
-                  op: 'add',
-                  path: '/fields/System.State',
-                  value: newState,
-                },
-              ];
-              await client.updateWorkItem([], patchDocument, workItemId, env.project, false);
-              console.log(`Work Item ${workItemId} state is successfully updated to ${newState}`);
-
-              const comment = {
-                text: `Automatically transitioned from github merge on ${new Date().toLocaleString()}.`,
-              };
-              await client.addComment(comment, env.project, workItemId);
-              console.log('Work Item comment created');
-            } catch (err) {
-              console.log(err.message);
-            }
-          }
-
-          const workItemId = 16355;
-          const newState = 'Rdy for deploy';
-
-          const env = {
-            adoToken: 'yukrhsmtjdf7xcrb5rt74hap7asrmuzgh7goelet2a6nzhi4xrua',
-            orgUrl: 'https://dev.azure.com/ResideWorldwide',
-            project: '3SIXTY PROPTECH',
-          };
-
-          updateWorkItem(workItemId, env, newState);
-
-      # - id: get_pr
-      #   name: Get task id from associated pull request
-      #   run: |
-      #       pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
-      #       echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
-      #   env:
-      #     REPOSITORY: ${{ github.repository }}
-      #     EVENT_SHA: ${{ github.sha }}
-      #     GH_TOKEN: ${{ secrets.TOKEN }}
-      # - id: get_task
-      #   name: Get task-id from body comment
-      #   uses: actions/github-script@v6
-      #   with:
-      #     result-encoding: string
-      #     script: |
-      #       const [{ body }] = ${{ env.PULL_REQUEST }};
-      #       return body.match(/(?<=AB#)[0-9]+/)[0];
-      # - name: Azure Login
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_TOKEN }}
-      # - name: Azure CLI script
-      #   uses: azure/CLI@v1
-      #   with:
-      #     inlineScript: |
-      #       az boards work-item update --id ${{steps.get_task.outputs.result}} --org="https://dev.azure.com/ResideWorldwide" --state "Done" --fields System.History="Automatically transitioned from Github"
+  # update_board_task_status:
+  #   name: Update board task status on PR merge
+  #   runs-on: ubuntu-latest      merged: false,
+  #   steps:
+  #       - name: Get context
+  #         run: |
+  #             echo "${{toJson(github)}}"
+       # - id: get_pr
+       #   name: Get task id from associated pull request
+       #   run: |
+       #      pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
+       #      echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
+       #   env:
+       #      REPOSITORY: ${{ github.repository }}
+       #      EVENT_SHA: ${{ github.sha }}
+       #      GH_TOKEN: ${{ secrets.TOKEN }}
+       # - id: get_task
+       #   name: Get task-id from body comment
+       #   uses: actions/github-script@v6
+       #   with:
+       #    result-encoding: string
+       #    script: |
+       #      const [{ body }] = ${{ env.PULL_REQUEST }};
+       #      return body.match(/(?<=AB#)[0-9]+/)[0];
