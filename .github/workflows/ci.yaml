@@ -1,11 +1,10 @@
 name: CI
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled, unlabeled, reopened]
+  workflow_dispatch:
 
-  push:
-    branches: [main]
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled, reopened, edited, closed]
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
@@ -15,52 +14,32 @@ jobs:
     name: Check task number is present in PR description
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
         - name: Get context
           run: |
               echo "${{toJson(github)}}"
 
-  update_board_task_status:
-    name: Update board task status on PR merge
-    if: ${{ github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: get_pr
-        name: Get task id from associated pull request
-        run: |
-            pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
-            echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
-        env:
-          REPOSITORY: ${{ github.repository }}
-          EVENT_SHA: ${{ github.sha }}
-          GH_TOKEN: ${{ secrets.TOKEN }}
-
-      - name: Get task id from associated pull request
-        run: |
-              echo "${{ env.PULL_REQUEST }}"
-      - id: task
-        name: Get task-id from body comment
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const [{ body }] = ${{ env.PULL_REQUEST }};
-            return body.match(/(?<=AB#)[0-9]+/)[0];
-
-      - name: Print result
-        run: |
-            echo "${{ steps.task.outputs.result }}"
-
-      # - name: Azure Login
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_TOKEN }}
-      # - name: Azure CLI script
-      #   uses: azure/CLI@v1
-      #   with:
-      #     azcliversion: 2.30.0
-      #     inlineScript: |
-      #       az boards work-item update --id ${{steps.get_pr.outputs.result}} --org="https://dev.azure.com/ResideWorldwide" --state "Done" --fields System.History="Automatically transitioned from Github"
+  # update_board_task_status:
+  #   name: Update board task status on PR merge
+  #   runs-on: ubuntu-latest      merged: false,
+  #   steps:
+  #       - name: Get context
+  #         run: |
+  #             echo "${{toJson(github)}}"
+       # - id: get_pr
+       #   name: Get task id from associated pull request
+       #   run: |
+       #      pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
+       #      echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
+       #   env:
+       #      REPOSITORY: ${{ github.repository }}
+       #      EVENT_SHA: ${{ github.sha }}
+       #      GH_TOKEN: ${{ secrets.TOKEN }}
+       # - id: get_task
+       #   name: Get task-id from body comment
+       #   uses: actions/github-script@v6
+       #   with:
+       #    result-encoding: string
+       #    script: |
+       #      const [{ body }] = ${{ env.PULL_REQUEST }};
+       #      return body.match(/(?<=AB#)[0-9]+/)[0];
