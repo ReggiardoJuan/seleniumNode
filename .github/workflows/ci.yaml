@@ -41,7 +41,7 @@ jobs:
         env:
             REPOSITORY: ${{ github.repository }}
             EVENT_SHA: ${{ github.sha }}
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GH_TOKEN: ${{ secrets.TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Setup Node.js
