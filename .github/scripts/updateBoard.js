@@ -6,7 +6,8 @@ const {
 } = process.env;
 
 async function updateWorkItem() {
-  const [{ body }] = pullRequest;
+  console.log(Object.keys(pullRequest[0]));
+  const [{ body }] = JSON.parse(pullRequest);
   const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
 
   try {
