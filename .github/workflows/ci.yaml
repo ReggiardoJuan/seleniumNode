@@ -43,15 +43,15 @@ jobs:
       #       EVENT_SHA: ${{ github.sha }}
       #       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
             node-version: '18'
       - name: Install Azure dependency
         run: |
-            npm install azure-devops-node-api faker
+            npm install azure-devops-node-api @faker-js/faker
       - name: Run script
         run: |
-            node ./.github/scripts/updateBoard.js
+            node .github/scripts/updateBoard.js
         working-directory: ${{ github.workspace }}
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
