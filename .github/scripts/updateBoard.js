@@ -1,11 +1,12 @@
-const azdev = require('azure-devops-node-api');
-const { faker } = require('@faker-js/faker');
+import azdev from 'azure-devops-node-api';
+import { faker } from '@faker-js/faker';
 
 const {
   NEW_STATE: newState,
 } = process.env;
 
 async function updateWorkItem() {
+    console.log(azdev);
     console.log(newState);
     return {
           userId: faker.string.uuid(),
@@ -18,4 +19,4 @@ async function updateWorkItem() {
     };
 }
 
-console.log(updateWorkItem());
+await updateWorkItem();

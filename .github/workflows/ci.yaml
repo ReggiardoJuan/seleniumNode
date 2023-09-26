@@ -51,7 +51,7 @@ jobs:
             npm install azure-devops-node-api faker
       - name: Run script
         run: |
-            node scripts/updateBoard.js
+            node .github/scripts/updateBoard.js
         working-directory: ${{ github.workspace }}
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
