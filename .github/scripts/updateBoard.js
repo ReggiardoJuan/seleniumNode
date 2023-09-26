@@ -6,6 +6,7 @@ const {
 } = process.env;
 
 async function updateWorkItem() {
+    console.log(newState);
     console.log(azdev);
     console.log(newState);
     return {

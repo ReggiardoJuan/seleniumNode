@@ -50,7 +50,7 @@ jobs:
             node-version: '18'
       - name: Install Azure dependency
         run: |
-            npm install -g azure-devops-node-api @faker-js/faker
+            npm install azure-devops-node-api @faker-js/faker
       - name: Run script
         run: |
             node .github/scripts/updateBoard.js
