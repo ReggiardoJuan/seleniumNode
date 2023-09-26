@@ -1,17 +1,18 @@
 import azdev from 'azure-devops-node-api';
 
-const {
+let {
   PULL_REQUEST: pullRequest,
   NEW_STATE: newState,
 } = process.env;
 
 async function updateWorkItem() {
-  console.log(Object.keys(pullRequest));
-  console.log(Object.keys(pullRequest[0]));
-  const [{ body }] = JSON.parse(pullRequest);
-  const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
-
+  let workItemId;
   try {
+    const [{ body }] = pullRequest;
+    const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
+    if (!workItemId) {
+      throw new Error('Work item was not found.');
+    }
     console.log(workItemId)
     console.log('Work Item comment created');
   } catch (err) {
