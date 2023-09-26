@@ -45,10 +45,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-            node-version: '18'
+            node-version: '16'
       - name: Install Azure dependency
         run: |
-            npm install azure-devops-node-api faker
+            npm install azure-devops-node-api @faker-js/faker
       - name: Run script
         run: |
             node .github/scripts/updateBoard.js
