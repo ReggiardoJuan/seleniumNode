@@ -33,8 +33,8 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      # - name: Clone repo
-      #   uses: actions/checkout@v3
+      - name: Clone repo
+        uses: actions/checkout@v3
       # - id: get_pr
       #   name: Get task id from associated pull request
       #   run: |
