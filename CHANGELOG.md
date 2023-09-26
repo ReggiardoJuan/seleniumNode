@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [v1.0.5](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.5) - 2023-09-18 17:31:00
+
+Test
+
+## [v1.0.4](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.4) - 2023-09-18 17:29:40
+
+Some description
+
+### Bug Fixes
+
+- general:
+  - Add name ([6f405ae](https://github.com/ReggiardoJuan/seleniumNode/commit/6f405ae1e2a2a96d3e241cab86ab277b255d889d)) ([#3](https://github.com/ReggiardoJuan/seleniumNode/pull/3))
+
 ## [v1.0.2](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.2) - 2023-09-18 17:06:42
 
 Test
