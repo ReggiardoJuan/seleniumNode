@@ -8,7 +8,7 @@ let {
 async function updateWorkItem() {
   let workItemId;
   try {
-    const [{ body }] = pullRequest;
+    const [{ body }] = JSON.parse(pullRequest);
     const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
     if (!workItemId) {
       throw new Error('Work item was not found.');
