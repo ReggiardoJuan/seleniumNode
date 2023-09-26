@@ -30,32 +30,31 @@ jobs:
 
   update_board_task_status:
     name: Update board task status on PR merge
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repo
+      - id: get_pr
+        name: Get task id from associated pull request
+        run: |
+            pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
+            echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
+        env:
+            REPOSITORY: ${{ github.repository }}
+            EVENT_SHA: ${{ github.sha }}
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repo
         uses: actions/checkout@v3
-      # - id: get_pr
-      #   name: Get task id from associated pull request
-      #   run: |
-      #       pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
-      #       echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
-      #   env:
-      #       REPOSITORY: ${{ github.repository }}
-      #       EVENT_SHA: ${{ github.sha }}
-      #       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
             node-version: '18'
       - name: Install Azure dependency
         run: |
-            npm install azure-devops-node-api @faker-js/faker
+            npm install azure-devops-node-api
       - name: Run script
         run: |
             node .github/scripts/updateBoard.js
-        working-directory: ${{ github.workspace }}
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
-            # PULL_REQUEST: ${{ steps.get_pr.outputs.result }}
+            PULL_REQUEST: ${{ steps.get_pr.outputs.result }}
             NEW_STATE: 'Done'

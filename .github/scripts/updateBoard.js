@@ -1,23 +1,20 @@
 import azdev from 'azure-devops-node-api';
-import { faker } from '@faker-js/faker';
 
 const {
+  PULL_REQUEST: pullRequest,
   NEW_STATE: newState,
 } = process.env;
 
 async function updateWorkItem() {
-    console.log(newState);
-    console.log(azdev);
-    console.log(newState);
-    return {
-          userId: faker.string.uuid(),
-          username: faker.internet.userName(),
-          email: faker.internet.email(),
-          avatar: faker.image.avatar(),
-          password: faker.internet.password(),
-          birthdate: faker.date.birthdate(),
-          registeredAt: faker.date.past(),
-    };
+  const [{ body }] = JSON.parse(pullRequest);
+  const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
+
+  try {
+    console.log(workItemId);
+    console.log('Work Item comment created');
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
-await updateWorkItem();
+updateWorkItem();
