@@ -6,11 +6,11 @@ const {
 } = process.env;
 
 async function updateWorkItem() {
-  const [{ body }] = JSON.parse(pullRequest);
+  const [{ body }] = pullRequest;
   const workItemId = body.match(/(?<=AB#)[0-9]+/)[0];
 
   try {
-    console.log(workItemId);
+    console.log(workItemId)
     console.log('Work Item comment created');
   } catch (err) {
     console.log(err.message);

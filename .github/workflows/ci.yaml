@@ -56,5 +56,5 @@ jobs:
             node .github/scripts/updateBoard.js
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
-            PULL_REQUEST: ${{ steps.get_pr.outputs.result }}
+            PULL_REQUEST: ${{ env.PULL_REQUEST }}
             NEW_STATE: 'Done'
