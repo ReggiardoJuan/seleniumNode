@@ -52,7 +52,7 @@ jobs:
             pip install requests
       - name: Run script
         run: |
-            python .github/scripts/update_board.js
+            python .github/scripts/update_board.py
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
             PULL_REQUEST: ${{ env.PULL_REQUEST }}
