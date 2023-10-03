@@ -9,17 +9,12 @@ NEW_STATE = os.getenv("NEW_STATE")
 
 
 def get_items_from_body():
-    print(NEW_STATE)
-    pr = json.loads(PULL_REQUEST)
-    print(pr)
-    pr_body = pr[0]["body"]
+    pr_body = json.loads(PULL_REQUEST)[0]["body"]
     return re.findall(r"(?<=AB#)[0-9]+", pr_body)
 
 
 def update_work_item():
-    working_items = get_items_from_body()
-    print(working_items)
-    for item in working_items:
+    for item in get_items_from_body():
         url = f"https://dev.azure.com/ResideWorldwide/3SIXTY%20PROPTECH/_apis/wit/workitems/{item}?api-version=7.1-preview.3"
         data = [{
             "op": "add",
@@ -33,7 +28,7 @@ def update_work_item():
         }]
 
         try:
-            print(f"Work Item {item} state is successfully updated to ${NEW_STATE[0]}")
+            print(f"Work Item {item} state is successfully updated to ${NEW_STATE}")
         except Exception as err:
             print(f"Error occurred at updating azure board: {err}")
 
