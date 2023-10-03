@@ -28,9 +28,10 @@ jobs:
               core.setFailed('Azure task presence validation fail');
             }
 
+
   update_board_task_status:
     name: Update board task status on PR merge
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - id: get_pr
@@ -44,17 +45,16 @@ jobs:
             GH_TOKEN: ${{ secrets.TOKEN }}
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-            node-version: '18'
-      - name: Install Azure dependency
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install dependencies
         run: |
-            npm install azure-devops-node-api
+            pip install requests
       - name: Run script
         run: |
-            node .github/scripts/updateBoard.js
+            python .github/scripts/update_board.js
         env:
             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
             PULL_REQUEST: ${{ env.PULL_REQUEST }}
             NEW_STATE: 'Done'
+
