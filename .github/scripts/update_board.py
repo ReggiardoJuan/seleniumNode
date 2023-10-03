@@ -14,7 +14,11 @@ def get_items_from_body():
 
 
 def update_work_item():
-    for item in get_items_from_body():
+    print(PULL_REQUEST[0])
+    print(NEW_STATE[0])
+    working_items = get_items_from_body()
+    print(working_items)
+    for item in working_items:
         url = f"https://dev.azure.com/ResideWorldwide/3SIXTY%20PROPTECH/_apis/wit/workitems/{item}?api-version=7.1-preview.3"
         data = [{
             "op": "add",
