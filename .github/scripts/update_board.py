@@ -9,15 +9,13 @@ NEW_STATE = os.getenv("NEW_STATE")
 
 
 def get_items_from_body():
-    print(PULL_REQUEST[0])
-    print(NEW_STATE[0])
+    print(PULL_REQUEST)
+    print(NEW_STATE)
     pr_body = json.loads(PULL_REQUEST[0])["body"]
     return re.findall(r"(?<=AB#)[0-9]+", pr_body)
 
 
 def update_work_item():
-    print(PULL_REQUEST[0])
-    print(NEW_STATE[0])
     working_items = get_items_from_body()
     print(working_items)
     for item in working_items:
@@ -25,7 +23,7 @@ def update_work_item():
         data = [{
             "op": "add",
             "path": "/fields/System.State",
-            "value": NEW_STATE[0],
+            "value": NEW_STATE,
         },
             {
             "op": "add",
