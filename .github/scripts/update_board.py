@@ -15,7 +15,6 @@ def get_items_from_body():
 
 def update_work_item():
     for item in get_items_from_body():
-        url = f"https://dev.azure.com/ResideWorldwide/3SIXTY%20PROPTECH/_apis/wit/workitems/{item}?api-version=7.1-preview.3"
         data = [{
             "op": "add",
             "path": "/fields/System.State",
@@ -28,6 +27,7 @@ def update_work_item():
         }]
 
         try:
+            print(data)
             print(f"Work Item {item} state is successfully updated to ${NEW_STATE}")
         except Exception as err:
             print(f"Error occurred at updating azure board: {err}")
