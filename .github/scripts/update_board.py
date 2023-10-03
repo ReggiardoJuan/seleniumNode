@@ -9,6 +9,8 @@ NEW_STATE = os.getenv("NEW_STATE")
 
 
 def get_items_from_body():
+    print(PULL_REQUEST[0])
+    print(NEW_STATE[0])
     pr_body = json.loads(PULL_REQUEST[0])["body"]
     return re.findall(r"(?<=AB#)[0-9]+", pr_body)
 
