@@ -4,12 +4,13 @@ import json
 import re
 
 # ADO_TOKEN = os.getenv("ADO_TOKEN")
-PULL_REQUEST = os.getenv("PULL_REQUEST")
-NEW_STATE = os.getenv("NEW_STATE")
+PULL_REQUEST = os.getenv("PULL_REQUEST", '[{ "body": "asdas AB#123"}]')
+NEW_STATE = os.getenv("NEW_STATE", "Hola")
 
 
 def get_items_from_body():
     pr_body = json.loads(PULL_REQUEST)[0]["body"]
+    print(pr_body)
     return re.findall(r"(?<=AB#)[0-9]+", pr_body)
 
 
