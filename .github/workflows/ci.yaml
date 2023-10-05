@@ -16,6 +16,10 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
+      - id: print pull
+      name: Get task id from associated pull request
+      run: |
+          echo ${{ toJson(github) }};
       - id: task
         name: Get task-id from body comment
         uses: actions/github-script@v6
@@ -34,6 +38,10 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
+      - id: print pull
+      name: Get task id from associated pull request
+      run: |
+          echo ${{ toJson(github) }};
       - id: get_pr
         name: Get task id from associated pull request
         run: |
