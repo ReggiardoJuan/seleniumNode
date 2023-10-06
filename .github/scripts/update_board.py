@@ -13,8 +13,16 @@ def get_items_from_body():
     print(pr_body)
     return re.findall(r"(?<=AB#)[0-9]+", pr_body)
 
+def is_bot_user():
+    user_type = PULL_REQUEST[0]["user"]["type"]
+    print("Soy bot?")
+    print(user_type)
+    return user_type.lower() == "Bot".lower()
+
 
 def update_work_item():
+    is_bot_user()
+
     for item in get_items_from_body():
         data = [{
             "op": "add",
