@@ -13,7 +13,7 @@ env:
 jobs:
   validate_azure_task_presence:
     name: Validate Azure task is present in PR body
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
       - id: print
