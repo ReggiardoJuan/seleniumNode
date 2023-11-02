@@ -9,6 +9,14 @@ inputs:
     description: 'Desire state to transition task to'
     required: true
     default: 'Done'
+  event-sha:
+    description: 'Event SHA to get pull request from'
+    required: true
+    default: ${{ github.sha }}
+  repository:
+    description: 'Owner and repo'
+    required: true
+    default: ${{ github.repository }}
 runs:
   using: 'node20'
   main: 'index.js'
