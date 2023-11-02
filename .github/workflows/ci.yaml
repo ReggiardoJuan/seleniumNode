@@ -56,4 +56,5 @@ jobs:
         uses: ./.github/actions/update-board
         with:
           ado-token: ${{ secrets.ADO_TOKEN }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
           new-state: 'Done'
