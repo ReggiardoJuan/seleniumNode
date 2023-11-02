@@ -2,9 +2,13 @@ name: 'Update Board'
 
 description: 'Update Azure board tasks to given status'
 inputs:
-  token:
+  ado-token:
+    description: 'Azure devops auth token'
+  #   required: true
+  gh-token:
     description: 'Github auth token'
     required: true
+    default: ${{ secrets.GITHUB_TOKEN }}
   new-state:
     description: 'Desire state to transition task to'
     required: true
