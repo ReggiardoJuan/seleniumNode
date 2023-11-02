@@ -1,5 +1,5 @@
-import core from '@actions/core';
-import { Octokit } from "@octokit/rest";
+const core = require('@actions/core');
+const { Octokit } = require('@octokit/rest');
 // import azdev from 'azure-devops-node-api';
 
 const newState = core.getInput('new-state');
@@ -19,9 +19,8 @@ async function getItemsFromBody() {
 }
 
 async function updateWorkItem() {
-  if(true) {
-    core.warning('It\'s me, Mario');
-  }
+  core.info(newState)
+  core.info(await getItemsFromBody())
   // const authHandler = azdev.getPersonalAccessTokenHandler(adoToken);
   // const connection = new azdev.WebApi('https://dev.azure.com/ResideWorldwide', authHandler);
   // const client = await connection.getWorkItemTrackingApi();
@@ -48,9 +47,9 @@ async function updateWorkItem() {
   //       (project = '3SIXTY PROPTECH'),
   //       (validateOnly = false)
   //     );
-  //     console.log(`Work Item ${itemId} state is successfully updated to ${newState}`);
+  //     core.info(`Work Item ${itemId} state is successfully updated to ${newState}`);
   //   } catch (err) {
-  //     console.log(err.message);
+  //     core.warning(err.message);
   //   }
   // }
 }
