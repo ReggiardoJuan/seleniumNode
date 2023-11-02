@@ -9,6 +9,10 @@ const repository = github.repository;
 const eventSha = github.sha;
 
 async function getPullRequest() {
+    console.log(github);
+    console.log('\n=================================\n');
+    console.log(github);
+    console.log('\n=================================\n');
     const octokit = new Octokit({ auth: token });
     const { data } = await octokit.request(`GET /repos/${repository}/commits/${eventSha}/pulls`);
     return data;
