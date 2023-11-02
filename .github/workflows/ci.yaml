@@ -57,7 +57,7 @@ jobs:
             node-version: '20'
       - name: Install dependencies
         run: |
-          npm --prefix ./.github/actions/updateBoard/ install
+          npm --prefix ./.github/actions/update-board/ install
       - name: Update board
         uses: ./.github/actions/update-board
         with:
