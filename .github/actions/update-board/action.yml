@@ -1,0 +1,14 @@
+name: 'Update Board'
+
+description: 'Update Azure board tasks to given status'
+inputs:
+  token:
+    description: 'Github auth token'
+    required: true
+  new-state:
+    description: 'Desire state to transition task to'
+    required: true
+    default: 'Done'
+runs:
+  using: 'node20'
+  main: 'index.js'
