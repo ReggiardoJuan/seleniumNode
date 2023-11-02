@@ -39,6 +39,7 @@ jobs:
 
 
   update_board_task_status:
+    permissions: write-all
     name: Update board task status on PR merge
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
