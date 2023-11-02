@@ -1,15 +1,15 @@
 const core = require('@actions/core');
 const { Octokit } = require('@octokit/rest');
-import azdev from 'azure-devops-node-api';
+const azdev = require('azure-devops-node-api');
 
+const adoToken = core.getInput('ado-token');
+const ghToken = core.getInput('gh-token');
 const newState = core.getInput('new-state');
-const token = core.getInput('gh-token');
 const repository = core.getInput('repository');
 const eventSha = core.getInput('event-sha');
-// const adoToken = core.getInput('ado-token');
 
 async function getPullRequest() {
-    const octokit = new Octokit({ auth: token });
+    const octokit = new Octokit({ auth: ghToken });
     const { data } = await octokit.request(`GET /repos/${repository}/commits/${eventSha}/pulls`);
     return data;
 }
