@@ -1,5 +1,4 @@
 import core from '@actions/core';
-import github from '@actions/github';
 import { Octokit } from "@octokit/rest";
 // import azdev from 'azure-devops-node-api';
 
@@ -9,8 +8,6 @@ const repository = core.getInput('repository');
 const eventSha = core.getInput('event-sha');
 
 async function getPullRequest() {
-    console.log(github);
-    console.log('\n=================================\n');
     const octokit = new Octokit({ auth: token });
     const { data } = await octokit.request(`GET /repos/${repository}/commits/${eventSha}/pulls`);
     return data;
@@ -22,8 +19,9 @@ async function getItemsFromBody() {
 }
 
 async function updateWorkItem() {
-  console.log(newState)
-  console.log(await getItemsFromBody())
+  if(true) {
+    core.warning('It\'s me, Mario');
+  }
   // const authHandler = azdev.getPersonalAccessTokenHandler(adoToken);
   // const connection = new azdev.WebApi('https://dev.azure.com/ResideWorldwide', authHandler);
   // const client = await connection.getWorkItemTrackingApi();
