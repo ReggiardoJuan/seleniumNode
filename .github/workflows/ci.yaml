@@ -63,4 +63,5 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           new-state: 'Done'
-
+          repository: ${{ github.repository }}
+          event-sha: ${{ github.sha }}

@@ -5,12 +5,10 @@ import { Octokit } from "@octokit/rest";
 
 const newState = core.getInput('new-state');
 const token = core.getInput('token');
-const repository = github.repository;
-const eventSha = github.sha;
+const repository = core.getInput('repository');
+const eventSha = core.getInput('event-sha');
 
 async function getPullRequest() {
-    console.log(github);
-    console.log('\n=================================\n');
     console.log(github);
     console.log('\n=================================\n');
     const octokit = new Octokit({ auth: token });
