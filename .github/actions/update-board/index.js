@@ -1,11 +1,12 @@
 const core = require('@actions/core');
 const { Octokit } = require('@octokit/rest');
-// import azdev from 'azure-devops-node-api';
+import azdev from 'azure-devops-node-api';
 
 const newState = core.getInput('new-state');
-const token = core.getInput('token');
+const token = core.getInput('gh-token');
 const repository = core.getInput('repository');
 const eventSha = core.getInput('event-sha');
+// const adoToken = core.getInput('ado-token');
 
 async function getPullRequest() {
     const octokit = new Octokit({ auth: token });
@@ -19,8 +20,7 @@ async function getItemsFromBody() {
 }
 
 async function updateWorkItem() {
-  core.info(newState)
-  core.info(await getItemsFromBody())
+  console.log(await getItemsFromBody());
   // const authHandler = azdev.getPersonalAccessTokenHandler(adoToken);
   // const connection = new azdev.WebApi('https://dev.azure.com/ResideWorldwide', authHandler);
   // const client = await connection.getWorkItemTrackingApi();
