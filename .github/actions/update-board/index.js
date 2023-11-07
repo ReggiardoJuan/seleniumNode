@@ -1,26 +1,25 @@
 const core = require('@actions/core');
-const { Octokit } = require('@octokit/rest');
 const azdev = require('azure-devops-node-api');
 
-const adoToken = core.getInput('ado-token');
+// const adoToken = core.getInput('ado-token');
 const ghToken = core.getInput('gh-token');
 const newState = core.getInput('new-state');
-const repository = core.getInput('repository');
-const eventSha = core.getInput('event-sha');
+const pullRequestBody = core.getInput('pull-request-body');
+// const eventSha = core.getInput('event-sha');
 
-async function getPullRequest() {
-    const octokit = new Octokit({ auth: ghToken });
-    const { data } = await octokit.request(`GET /repos/${repository}/commits/${eventSha}/pulls`);
-    return data;
-}
+// async function getPullRequest() {
+//     const octokit = new Octokit({ auth: ghToken });
+//     const { data } = await octokit.request(`GET /repos/${repository}/commits/${eventSha}/pulls`);
+//     return data;
+// }
 
-async function getItemsFromBody() {
-  const [{ body }] = await getPullRequest();
-  return body.match(/(?<=AB#)[0-9]+/g);
-}
+// async function getItemsFromBody() {
+//   const [{ body }] = await getPullRequest();
+//   return pullRequestBody.match(/(?<=AB#)[0-9]+/g);
+// }
 
 async function updateWorkItem() {
-  console.log(await getItemsFromBody());
+  console.log(pullRequestBody.match(/(?<=AB#)[0-9]+/g));
   // const authHandler = azdev.getPersonalAccessTokenHandler(adoToken);
   // const connection = new azdev.WebApi('https://dev.azure.com/ResideWorldwide', authHandler);
   // const client = await connection.getWorkItemTrackingApi();

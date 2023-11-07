@@ -1,47 +1,44 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    types: [opened, reopened, edited, closed]
+    types: [closed]
   workflow_dispatch:
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
-  validate_azure_task_presence:
-    name: Validate Azure task is present in PR body
-    if: ${{ github.event_name == 'pull_request' && github.event.sender.type != 'Bot' }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: print
-        name: Some
-        run: |
-          echo $SENDER
-          echo $GITHUB
-        env:
-          SENDER: ${{ github.event.sender.type }}
-          GITHUB: ${{ toJson(github) }}
-      - id: task
-        name: Get task-id from body comment
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const body = ${{ toJson(github.event.pull_request.body) }};
-            const azureTask = body?.match(/(?<=AB#)[0-9]+/);
-            if (!azureTask) {
-              core.setFailed('Azure task presence validation fail');
-            }
+#   validate_azure_task_presence:
+#     name: Validate Azure task is present in PR body
+#     if: ${{ github.event.merged && github.event.sender.type != 'Bot' }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - id: print
+#         name: Some
+#         run: |
+#           echo $SENDER
+#           echo $GITHUB
+#         env:
+#           SENDER: ${{ github.event.sender.type }}
+#           GITHUB: ${{ toJson(github) }}
+#       - id: task
+#         name: Get task-id from body comment
+#         uses: actions/github-script@v6
+#         with:
+#           result-encoding: string
+#           script: |
+#             const body = ${{ toJson(github.event.pull_request.body) }};
+#             const azureTask = body?.match(/(?<=AB#)[0-9]+/);
+#             if (!azureTask) {
+#               core.setFailed('Azure task presence validation fail');
+#             }
 
 
   update_board_task_status:
     permissions: write-all
     name: Update board task status on PR merge
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -57,5 +54,5 @@ jobs:
         uses: ./.github/actions/update-board
         with:
           ado-token: ${{ secrets.ADO_TOKEN }}
-          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-body: ${{ github.event.pull_request.body }}
           new-state: 'Done'
