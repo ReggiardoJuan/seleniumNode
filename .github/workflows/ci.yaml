@@ -2,8 +2,9 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
     types: [closed]
-  workflow_dispatch:
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
