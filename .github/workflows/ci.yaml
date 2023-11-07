@@ -2,8 +2,9 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
     types: [closed]
-  workflow_dispatch:
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
@@ -38,7 +39,7 @@ jobs:
   update_board_task_status:
     permissions: write-all
     name: Update board task status on PR merge
-    if: ${{ github.event.merged == true && github.event.sender.type != 'Bot' }}
+    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
