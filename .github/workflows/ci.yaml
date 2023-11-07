@@ -42,6 +42,14 @@ jobs:
     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
+      - id: print
+        name: Some
+        run: |
+          echo $SENDER
+          echo $GITHUB
+        env:
+          SENDER: ${{ github.event.sender.type }}
+          GITHUB: ${{ toJson(github) }}
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Setup Node.js
