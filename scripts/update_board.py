@@ -8,6 +8,7 @@ PULL_REQUEST_BODY = os.getenv("PULL_REQUEST_BODY")
 
 
 def update_work_item():
+    print(PULL_REQUEST_BODY)
     items = re.findall(r"(?<=AB#)[0-9]+", PULL_REQUEST_BODY)
 
     if not items:
