@@ -103,9 +103,7 @@ on:
       - main
     types: [closed]
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
   release-please:
