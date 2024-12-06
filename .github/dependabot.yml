@@ -5,10 +5,10 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
+  - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
         interval: "daily"
         # Check for npm updates at 9am UTC
-        time: "18:23"
+        time: "18:32"
         timezone: "America/Argentina/Buenos_Aires"

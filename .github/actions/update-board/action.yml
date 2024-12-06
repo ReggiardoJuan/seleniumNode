@@ -1,0 +1,25 @@
+name: 'Update Board'
+
+description: 'Update Azure board tasks to given status'
+inputs:
+  ado-token:
+    description: 'Azure devops auth token'
+  #   required: true
+  pull-request-body:
+    description: 'Github auth token'
+    required: true
+  new-state:
+    description: 'Desire state to transition task to'
+    required: true
+    default: 'Done'
+  # event-sha:
+  #   description: 'Event SHA to get pull request from'
+  #   required: true
+  #   default: ${{ github.sha }}
+  # repository:
+  #   description: 'Owner and repo'
+  #   required: true
+    # default: ${{ github.repository }}
+runs:
+  using: 'node20'
+  main: 'index.js'
