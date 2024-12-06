@@ -1,75 +1,32 @@
 name: CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened, edited]
-  workflow_dispatch:
+    types: [closed]
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
-  validate_azure_task_presence:
-    name: Validate Azure task is present in PR body
-    if: ${{ github.event_name == 'pull_request' && github.event.sender.type != 'Bot' }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: print
-        name: Some
-        run: |
-          echo $SENDER
-          echo $GITHUB
-        env:
-          SENDER: ${{ github.event.sender.type }}
-          GITHUB: ${{ toJson(github) }}
-      - id: task
-        name: Get task-id from body comment
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const body = ${{ toJson(github.event.pull_request.body) }};
-            const azureTask = body?.match(/(?<=AB#)[0-9]+/);
-            if (!azureTask) {
-              core.setFailed('Azure task presence validation fail');
-            }
-
-
   update_board_task_status:
-    name: Update board task status on PR merge
-    if: ${{ github.event_name == 'push' }}
+    permissions: write-all
+    name: Generate release
+    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
-      - id: print
-        name: Some
-        run: |
-          echo "$GITHUB"
-        env:
-          GITHUB: ${{ toJson(github) }}
-      - id: get_pr
-        name: Get task id from associated pull request
-        run: |
-            pullRequest="$(gh api /repos/$REPOSITORY/commits/$EVENT_SHA/pulls)"
-            echo "PULL_REQUEST=$pullRequest" >> $GITHUB_ENV
-        env:
-            REPOSITORY: ${{ github.repository }}
-            EVENT_SHA: ${{ github.sha }}
-            GH_TOKEN: ${{ secrets.TOKEN }}
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Install dependencies
         run: |
-            pip install requests
-      - name: Run script
-        run: |
-            python .github/scripts/update_board.py
-        env:
-            # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
-            PULL_REQUEST: ${{ env.PULL_REQUEST }}
-            NEW_STATE: 'Done'
-
+          npm i release-please
+      - name: Update board
+        uses: ./.github/actions/update-board
+        with:
+          ado-token: ${{ secrets.ADO_TOKEN }}
+          new-state: 'Done'
