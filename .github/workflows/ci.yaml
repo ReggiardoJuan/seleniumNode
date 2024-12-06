@@ -65,7 +65,37 @@
 #           ado-token: ${{ secrets.ADO_TOKEN }}
 #           pull-request-body: ${{ github.event.pull_request.body }}
 #           new-state: 'Done'
-name: CI
+# name: CI
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     types: [closed]
+
+# jobs:
+#   update_board_task_status:
+#     name: Update board task status on PR merge
+#     permissions: write-all
+#     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v3
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#       - name: Install dependencies
+#         run: |
+#             pip install requests
+#       - name: Run script
+#         run: |
+#             python scripts/update_board.py
+#         env:
+#             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
+#             PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+#             NEW_STATE: 'Rdy for deploy'
+
+name: release-please
 
 on:
   pull_request:
@@ -73,24 +103,12 @@ on:
       - main
     types: [closed]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  update_board_task_status:
-    name: Update board task status on PR merge
-    permissions: write-all
-    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
+  release-please:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v2
-      - name: Install dependencies
-        run: |
-            pip install requests
-      - name: Run script
-        run: |
-            python scripts/update_board.py
-        env:
-            # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
-            PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
-            NEW_STATE: 'Rdy for deploy'
+      - uses: googleapis/release-please-action@v4
