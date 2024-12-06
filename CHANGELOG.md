@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [2.1.1](https://github.com/ReggiardoJuan/seleniumNode/compare/seleniumnode-v2.1.0...seleniumnode-v2.1.1) (2024-12-06)
+
+
+### Bug Fixes
+
+* 23490 Some ([8469e0e](https://github.com/ReggiardoJuan/seleniumNode/commit/8469e0ebcb1dac9a29f89fe19e1eb51312c9869f))
+
 ## [v1.0.5](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.5) - 2023-09-18 17:31:00
 
 Test
