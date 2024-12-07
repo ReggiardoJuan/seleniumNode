@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.0](https://github.com/ReggiardoJuan/seleniumNode/compare/v3.0.2...v3.1.0) (2024-12-07)
+
+
+### Features
+
+* 23490 changelog update ([ec7f8fc](https://github.com/ReggiardoJuan/seleniumNode/commit/ec7f8fcb598d520b9bdffba3e2e845cb8109d134))
+
 ## [3.0.2](https://github.com/ReggiardoJuan/seleniumNode/compare/v3.0.1...v3.0.2) (2024-12-07)
 
 ## [2.2.0](https://github.com/ReggiardoJuan/seleniumNode/compare/v1.0.5...v2.2.0) (2024-12-06)
