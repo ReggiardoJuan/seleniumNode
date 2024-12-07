@@ -1,27 +1,27 @@
-name: Auto Changelog CI
+# name: Auto Changelog CI
 
-on:
-  release:
-    types: [ published ]
+# on:
+#   release:
+#     types: [ published ]
 
-  workflow_dispatch:
-    inputs:
-      release:
-        description: 'Release'
-        required: true
-jobs:
-  release:
-    permissions: write-all
-    runs-on: ubuntu-latest
+#   workflow_dispatch:
+#     inputs:
+#       release:
+#         description: 'Release'
+#         required: true
+# jobs:
+#   release:
+#     permissions: write-all
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+#     steps:
+#       - uses: actions/checkout@v2
 
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.1.2
-        id: changelog-ci
-        with:
-          config_file: ./.github/config/changelog-ci-config.yaml
-          changelog_filename: CHANGELOG-changelog-ci.md
-          release_version: ${{ github.event.release.tag_name || inputs.release }}
-          github_token: ${{ secrets.token }}
+#       - name: Run Changelog CI
+#         uses: saadmk11/changelog-ci@v1.1.2
+#         id: changelog-ci
+#         with:
+#           config_file: ./.github/config/changelog-ci-config.yaml
+#           changelog_filename: CHANGELOG-changelog-ci.md
+#           release_version: ${{ github.event.release.tag_name || inputs.release }}
+#           github_token: ${{ secrets.token }}
