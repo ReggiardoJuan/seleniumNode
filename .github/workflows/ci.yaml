@@ -103,14 +103,36 @@ on:
       - main
     types: [closed]
 
-permissions: write-all
-
 jobs:
-  release-please:
+  release_and_changelog:
+    permissions: write-all
+    name: Generate release notes and changelog
+    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Chores","hidden":false},{"type":"revert","section":"Reverts","hidden":false}]'
-          changelog-path: "CHANGELOG.md"
-          release-type: "node"
+          node-version: '22'
+      - name: Install dependencies
+        run: |
+          npm i commit-and-tag-version auto-changelog
+      - name: Bump version, create tag, and update changelog
+        run: |
+          npx commit-and-tag-version --skip.changelog --skip.commit
+          npx auto-changelog -p --template .github/templates/changelog.hbs
+          git add .
+          git commit -m "chore(release): bump version and update changelog"
+          git push origin main --follow-tags
+      - name: Publish GitHub Release with auto-generated notes
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: "Release ${{ github.ref_name }}"
+          generate_release_notes: true
+          draft: false
+          prerelease: false
