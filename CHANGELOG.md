@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.0.0](https://github.com/ReggiardoJuan/seleniumNode/compare/v4.2.4...v5.0.0) (2024-12-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* 23491
+
+* 23491 ([d8a71a5](https://github.com/ReggiardoJuan/seleniumNode/commit/d8a71a52c55706f0ae5e9a0d486177dff51c788b))
+
 ## [4.2.4](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.3...v4.2.4) (2024-12-07)
 
 
