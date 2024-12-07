@@ -1,107 +1,13 @@
-# name: CI
-
-# on:
-#   pull_request:
-#     branches:
-#       - main
-#     types: [closed]
-
-# env:
-#   NODE_OPTIONS: --max-old-space-size=16384
-
-# jobs:
-# #   validate_azure_task_presence:
-# #     name: Validate Azure task is present in PR body
-# #     if: ${{ github.event.merged && github.event.sender.type != 'Bot' }}
-# #     runs-on: ubuntu-latest
-# #     steps:
-# #       - id: print
-# #         name: Some
-# #         run: |
-# #           echo $SENDER
-# #           echo $GITHUB
-# #         env:
-# #           SENDER: ${{ github.event.sender.type }}
-# #           GITHUB: ${{ toJson(github) }}
-# #       - id: task
-# #         name: Get task-id from body comment
-# #         uses: actions/github-script@v6
-# #         with:
-# #           result-encoding: string
-# #           script: |
-# #             const body = ${{ toJson(github.event.pull_request.body) }};
-# #             const azureTask = body?.match(/(?<=AB#)[0-9]+/);
-# #             if (!azureTask) {
-# #               core.setFailed('Azure task presence validation fail');
-# #             }
-
-
-#   update_board_task_status:
-#     permissions: write-all
-#     name: Update board task status on PR merge
-#     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - id: print
-#         name: Some
-#         run: |
-#           echo $SENDER
-#           echo $GITHUB
-#         env:
-#           SENDER: ${{ github.event.sender.type }}
-#           GITHUB: ${{ toJson(github) }}
-#       - name: Checkout repo
-#         uses: actions/checkout@v3
-#       - name: Setup Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#             node-version: '20'
-#       - name: Install dependencies
-#         run: |
-#           npm --prefix ./.github/actions/update-board/ install
-#       - name: Update board
-#         uses: ./.github/actions/update-board
-#         with:
-#           ado-token: ${{ secrets.ADO_TOKEN }}
-#           pull-request-body: ${{ github.event.pull_request.body }}
-#           new-state: 'Done'
-# name: CI
-
-# on:
-#   pull_request:
-#     branches:
-#       - main
-#     types: [closed]
-
-# jobs:
-#   update_board_task_status:
-#     name: Update board task status on PR merge
-#     permissions: write-all
-#     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repo
-#         uses: actions/checkout@v3
-#       - name: Set up Python
-#         uses: actions/setup-python@v2
-#       - name: Install dependencies
-#         run: |
-#             pip install requests
-#       - name: Run script
-#         run: |
-#             python scripts/update_board.py
-#         env:
-#             # ADO_TOKEN: ${{ secrets.ADO_TOKEN }}
-#             PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
-#             NEW_STATE: 'Rdy for deploy'
-
-name: release-please
+name: release
 
 on:
   pull_request:
     branches:
       - main
     types: [closed]
+
+env:
+  NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
   release_and_changelog:
@@ -110,15 +16,23 @@ jobs:
     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: Install dependencies
         run: |
           npm i commit-and-tag-version auto-changelog
+
       - name: Bump version, create tag, and update changelog
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
@@ -126,6 +40,7 @@ jobs:
           git add .
           git commit -m "chore(release): bump version and update changelog"
           git push origin main --follow-tags
+
       - name: Publish GitHub Release with auto-generated notes
         uses: actions/create-release@v1
         env:
