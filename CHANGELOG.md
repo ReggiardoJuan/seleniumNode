@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.2.3](https://github.com/ReggiardoJuan/seleniumNode/compare/v4.2.2...v4.2.3) (2024-12-07)
+
+
+### Bug Fixes
+
+* 23491 ([7c454db](https://github.com/ReggiardoJuan/seleniumNode/commit/7c454db3871f078edb4363d7cb0e6f4dd2576be9))
+
 ## [4.2.2](https://github.com/ReggiardoJuan/seleniumNode/compare/v4.2.1...v4.2.2) (2024-12-07)
 
 ### Changelog
