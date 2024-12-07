@@ -1,6 +1,6 @@
 {
   "name": "seleniumnode",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,10 @@
   "author": "JJR",
   "license": "ISC",
   "dependencies": {
+    "auto-changelog": "^2.5.0",
     "chai": "^4.3.6",
     "chromedriver": "^112.0.0",
+    "commit-and-tag-version": "^12.5.0",
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.3",
     "faker": "^6.6.6",
