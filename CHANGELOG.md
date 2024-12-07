@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.2.4](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.3...v4.2.4) (2024-12-07)
+
+
+* 23491 ([5d6bf40](https://github.com/mokkapps/changelog-generator-demo/commits/5d6bf4022f0f9251c952e61fe8d6953f82e7fa01))
+
+
+### Bug Fixes
+
+* 23491 ([0b68236](https://github.com/mokkapps/changelog-generator-demo/commits/0b68236db3ebd8ed9f3c2a99512791e1a1698484))
+
+
+### CI
+
+* 23491 ([8ab3878](https://github.com/mokkapps/changelog-generator-demo/commits/8ab3878783e7aa94ec1b76263d50e1d371c8a5e6))
+
 ## [4.2.3](https://github.com/ReggiardoJuan/seleniumNode/compare/v4.2.2...v4.2.3) (2024-12-07)
 
 
