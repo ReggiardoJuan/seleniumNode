@@ -1,5 +1,23 @@
 # seleniumnode
 
+## 2.2.2
+
+### Patch Changes
+
+- LALALALAL
+
+## 2.2.1
+
+### Patch Changes
+
+- What?
+
+## 2.2.0
+
+### Minor Changes
+
+- 0db6f5a: Some description v2
+
 ## 2.1.1
 
 ### Patch Changes
