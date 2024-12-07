@@ -1,5 +1,17 @@
 # seleniumnode
 
+## 2.2.4
+
+### Patch Changes
+
+- Me parece una cagada
+
+## 2.2.3
+
+### Patch Changes
+
+- v2.2.2
+
 ## 2.2.2
 
 ### Patch Changes
