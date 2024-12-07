@@ -33,10 +33,7 @@ jobs:
         run: |
           mkdir -p ./tmp
           echo '{
-            "dependencies": {
-              "auto-changelog": "^2.0.0",
-              "commit-and-tag-version": "^3.0.0"
-            }
+            "dependencies": {}
           }' > ./tmp/package.json
 
       - name: Install dependencies
