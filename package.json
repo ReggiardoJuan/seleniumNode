@@ -1,6 +1,6 @@
 {
   "name": "seleniumnode",
-  "version": "2.2.0",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,8 @@
   "author": "JJR",
   "license": "ISC",
   "dependencies": {
+    "@changesets/changelog-git": "^0.2.0",
+    "@changesets/cli": "^2.27.10",
     "chai": "^4.3.6",
     "chromedriver": "^112.0.0",
     "dayjs": "^1.11.4",
@@ -25,6 +27,8 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
-    "prettier": "^2.8.7"
+    "commit-and-tag-version": "^12.5.0",
+    "prettier": "^2.8.7",
+    "semantic-release": "^24.2.0"
   }
 }
