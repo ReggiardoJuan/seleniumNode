@@ -29,9 +29,19 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Create temporary package.json
+        run: |
+          mkdir -p ./tmp
+          echo '{
+            "dependencies": {
+              "auto-changelog": "^2.0.0",
+              "commit-and-tag-version": "^3.0.0"
+            }
+          }' > ./tmp/package.json
+
       - name: Install dependencies
         run: |
-          npm i commit-and-tag-version auto-changelog
+          npm --prefix ./tmp install
 
       - name: Bump version, create tag, and update changelog
         run: |
@@ -43,6 +53,7 @@ jobs:
 
       - name: Publish GitHub Release with auto-generated notes
         run: |
+          echo "${{ github }}"
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
