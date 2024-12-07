@@ -1,6 +1,6 @@
 {
   "name": "seleniumnode",
-  "version": "2.3.1",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,8 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
-    "prettier": "^2.8.7"
+    "commit-and-tag-version": "^12.5.0",
+    "prettier": "^2.8.7",
+    "semantic-release": "^24.2.0"
   }
 }

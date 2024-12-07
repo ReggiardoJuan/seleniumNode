@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.1](https://github.com/ReggiardoJuan/seleniumNode/compare/v3.0.0...v3.0.1) (2024-12-07)
+
+# Changelog
+
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
 # CHANGELOG
 
 ## [v1.0.5](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v1.0.5) - 2023-09-18 17:31:00
