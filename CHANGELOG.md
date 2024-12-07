@@ -1,5 +1,17 @@
 # seleniumnode
 
+## 2.3.1
+
+### Patch Changes
+
+- P
+
+## 2.3.0
+
+### Minor Changes
+
+- Some
+
 ## 2.2.4
 
 ### Patch Changes
