@@ -47,7 +47,7 @@ jobs:
           npx auto-changelog -p --template .github/templates/changelog.hbs --commit-limit false
           git add package.json CHANGELOG.md
           git commit -m "chore(release): bump version and update changelog"
-          git push origin main --follow-tags
+          git push --follow-tags
 
       - name: Publish GitHub Release with auto-generated notes
         run: |
