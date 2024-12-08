@@ -38,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm --prefix ./tmp install
+          npm --prefix ./tmp install commit-and-tag-version auto-changelog
 
       - name: Get tag name for release
         id: get_tag_name
@@ -56,7 +56,6 @@ jobs:
 
       - name: Publish GitHub Release with auto-generated notes
         run: |
-          echo "${{ toJson(github) }}"
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
