@@ -10,6 +10,16 @@ env:
   NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
+  update_board_task_status:
+    permissions: write-all
+    name: Update board task status on PR merge
+    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          echo "Hola"
+
   release_and_changelog:
     permissions: write-all
     name: Generate release notes and changelog
@@ -44,12 +54,12 @@ jobs:
       - name: Bump version, create tag, and update changelog
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
-          npx auto-changelog -p --template .github/templates/changelog.hbs --commit-limit false
+          npx auto-changelog -p --template .github/templates/changelog.hbs
           git add package.json CHANGELOG.md
-          git commit -m "chore(release): bump version and update changelog"
+          git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
           git push --follow-tags
 
-      - name: Publish GitHub Release with auto-generated notes
+      - name: Publish release with auto-generated notes
         run: |
           curl -L \
             -X POST \
