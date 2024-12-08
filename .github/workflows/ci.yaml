@@ -38,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm --prefix ./tmp install
+          npm --prefix ./tmp install commit-and-tag-version auto-changelog
 
       - name: Get tag name for release
         id: get_tag_name
@@ -50,13 +50,12 @@ jobs:
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
           npx auto-changelog -p --template .github/templates/changelog.hbs --commit-limit false
-          git add .
+          git add package.json CHANGELOG.md
           git commit -m "chore(release): bump version and update changelog"
           git push origin main --follow-tags
 
       - name: Publish GitHub Release with auto-generated notes
         run: |
-          echo "${{ toJson(github) }}"
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
