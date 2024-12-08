@@ -50,7 +50,7 @@ jobs:
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
           npx auto-changelog -p --template .github/templates/changelog.hbs --commit-limit false
-          git add .
+          git add package.json CHANGELOG.md
           git commit -m "chore(release): bump version and update changelog"
           git push origin main --follow-tags
 
