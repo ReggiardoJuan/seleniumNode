@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure Git user
         run: |
@@ -36,18 +38,12 @@ jobs:
             "dependencies": {}
           }' > ./tmp/package.json
 
-      - name: Install dependencies
-        run: |
-          npm --prefix ./tmp install commit-and-tag-version auto-changelog
-
-      - name: Get tag name for release
-        id: get_tag_name
+      - name: Bump version and create tag
+        id: tag
         run: |
           TAG_NAME=$(npx commit-and-tag-version --skip.changelog --skip.commit --dry-run | grep 'tagging release' | awk '{print $NF}')
-          echo "tag=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
 
-      - name: Bump version, create tag, and update changelog
-        run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
           npx auto-changelog -p --template .github/templates/changelog.hbs --commit-limit false
           git add package.json CHANGELOG.md
@@ -63,9 +59,9 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/releases \
             -d '{
-              "tag_name": "${{ steps.get_tag_name.outputs.tag }}",
+              "tag_name": "${{ steps.tag.outputs.tag_name }}",
               "target_commitish": "main",
-              "name": "${{ steps.get_tag_name.outputs.tag }}",
+              "name": "${{ steps.tag.outputs.tag_name }}",
               "draft": false,
               "prerelease": false,
               "generate_release_notes": true
