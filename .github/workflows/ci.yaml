@@ -31,16 +31,9 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Create temporary package.json
-        run: |
-          mkdir -p ./tmp
-          echo '{
-            "dependencies": {}
-          }' > ./tmp/package.json
-
       - name: Install dependencies
         run: |
-          npm --prefix ./tmp install commit-and-tag-version auto-changelog
+          npm install commit-and-tag-version auto-changelog
 
       - name: Get tag name for release
         id: get_tag_name
