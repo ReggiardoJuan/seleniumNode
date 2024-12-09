@@ -17,7 +17,7 @@
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.3",
     "faker": "^6.6.6",
-    "geckodriver": "^4.2.1",
+    "geckodriver": "^5.0.0",
     "got": "^12.6.0",
     "jsonschema": "^1.4.1",
     "mocha": "^10.0.0",
