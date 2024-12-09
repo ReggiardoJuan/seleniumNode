@@ -45,9 +45,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git fetch origin main
+          git rebase origin/main
+
           git add package.json
           git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
-          git push origin HEAD:main
+          git push origin main
 
       - name: Publish release with auto-generated notes
         run: |
