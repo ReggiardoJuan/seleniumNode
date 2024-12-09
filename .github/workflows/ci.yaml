@@ -1,29 +1,26 @@
 name: release
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  workflow_dispatch:
 
 env:
   NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
-  update_board_task_status:
-    permissions: write-all
-    name: Update board task status on PR merge
-    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        run: |
-          echo "Hola"
+  # update_board_task_status:
+  #   permissions: write-all
+  #   name: Update board task status on PR merge
+  #   if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       run: |
+  #         echo "Hola"
 
   release_and_changelog:
     permissions: write-all
     name: Generate release notes and changelog
-    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
+    # if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -35,6 +32,20 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      # - name: Get JSON
+      #   id: get_json
+      #   run: |
+      #     JSON=$(curl -s -X GET \
+      #       -H "Authorization: token " \
+      #       https://api.github.com/repos/${{ github.repository }}/contents/package.json
+      #     )
+      #     echo 'JSON<<EOF' >> $GITHUB_OUTPUT
+      #     echo $JSON >> $GITHUB_OUTPUT
+      #     echo 'EOF' >> $GITHUB_OUTPUT
+      # - name: Get SHA
+      #   id: get_sha
+      #   run: |
+      #     echo '${{ fromJson(steps.get_json.outputs.JSON).sha }}'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -54,24 +65,58 @@ jobs:
       - name: Bump version, create tag, and update changelog
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
-          npx auto-changelog -p --template .github/templates/changelog.hbs
-          git add package.json CHANGELOG.md
-          git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
-          git push --follow-tags
-
-      - name: Publish release with auto-generated notes
+      - name: Push changes with REST API
         run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/releases \
-            -d '{
-              "tag_name": "${{ steps.get_tag_name.outputs.tag }}",
-              "target_commitish": "main",
-              "name": "${{ steps.get_tag_name.outputs.tag }}",
-              "draft": false,
-              "prerelease": false,
-              "generate_release_notes": true
-            }'
+          echo Obtener el SHA actual del archivo package.json
+          PACKAGE_JSON_SHA=$(curl -s -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/contents/package.json | jq -r '.sha')
+
+          echo Subir cambio
+          echo $(base64 package.json)
+          curl -v --trace-ascii - -X PUT -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"message": "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }}", "content": ""$(base64 package.json)""}' \
+            https://api.github.com/repos/${{ github.repository }}/contents/package.json
+
+      # - name: Create a tag
+      #   run: |
+      #     # Obtener SHA del último commit
+      #     COMMIT_SHA=$(curl -s -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
+      #       https://api.github.com/repos/${{ github.repository }}/git/refs/heads/main | jq -r '.object.sha')
+
+      #     # Crear el tag
+      #     curl -X POST -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
+      #       -H "Content-Type: application/json" \
+      #       -d '{
+      #         "tag": "${{ steps.get_tag_name.outputs.tag }}",
+      #         "message": "Release version ${{ steps.get_tag_name.outputs.tag }}",
+      #         "object": "'"$COMMIT_SHA"'",
+      #         "type": "commit"
+      #       }' \
+      #       https://api.github.com/repos/${{ github.repository }}/git/tags
+
+      #     # Empujar el tag al repositorio
+      #     curl -X POST -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
+      #       -H "Content-Type: application/json" \
+      #       -d '{
+      #         "ref": "refs/tags/${{ steps.get_tag_name.outputs.tag }}",
+      #         "sha": "'"$COMMIT_SHA"'"
+      #       }' \
+      #       https://api.github.com/repos/${{ github.repository }}/git/refs
+
+      # - name: Publish release with auto-generated notes
+      #   run: |
+      #     curl -L \
+      #       -X POST \
+      #       -H "Accept: application/vnd.github+json" \
+      #       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #       -H "X-GitHub-Api-Version: 2022-11-28" \
+      #       https://api.github.com/repos/${{ github.repository }}/releases \
+      #       -d '{
+      #         "tag_name": "${{ steps.get_tag_name.outputs.tag }}",
+      #         "target_commitish": "main",
+      #         "name": "${{ steps.get_tag_name.outputs.tag }}",
+      #         "draft": false,
+      #         "prerelease": false,
+      #         "generate_release_notes": true
+      #       }'
