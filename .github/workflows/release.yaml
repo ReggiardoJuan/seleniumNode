@@ -47,7 +47,7 @@ jobs:
         run: |
           git add package.json
           git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
-          git push origin HEAD:main --follow-tags
+          git push origin HEAD:main
 
       - name: Publish release with auto-generated notes
         run: |
