@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install commit-and-tag-version auto-changelog
+          npm install commit-and-tag-version
 
       - name: Get tag name for release
         id: get_tag_name
@@ -40,15 +40,14 @@ jobs:
       - name: Bump version and update changelog
         run: |
           npx commit-and-tag-version --skip.changelog --skip.commit
-          npx auto-changelog -p --template .github/templates/changelog.hbs
 
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git add package.json CHANGELOG.md
+          git add package.json
           git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
-          git push origin HEAD:main
+          git push origin HEAD:main --follow-tags
 
       - name: Publish release with auto-generated notes
         run: |
