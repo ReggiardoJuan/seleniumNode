@@ -59,7 +59,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/pulls \
             -d '{
               "title": "Automated bump version ${{ steps.get_tag_name.outputs.tag }}",
-              "head": "'$TEMP_BRANCH'",
+              "head": "$TEMP_BRANCH",
               "base": "main",
               "body": "Bump version to ${{ steps.get_tag_name.outputs.tag }}"
             }')
