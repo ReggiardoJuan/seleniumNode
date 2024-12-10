@@ -1,15 +1,12 @@
 name: Generate release notes and changelog
 on:
-  pull_request:
-    types:
-      - closed
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   release:
-    if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -37,20 +34,44 @@ jobs:
           TAG_NAME=$(npx commit-and-tag-version --skip.changelog --skip.commit --dry-run | grep 'tagging release' | awk '{print $NF}')
           echo "tag=$TAG_NAME" >> "$GITHUB_OUTPUT"
 
-      - name: Bump version and update changelog
+      - name: Bump version and commit
         run: |
-          npx commit-and-tag-version --skip.changelog --skip.commit
+          npx commit-and-tag-version --bumpFiles: package.json --skip.changelog --skip.commit
+          git add package.json
+          git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }}"
 
-      - name: Commit and push changes
+      - name: Push changes to a temporary branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch origin main
-          git rebase origin/main
+          TEMP_BRANCH="release-$(date +%Y%m%d%H%M%S)"
+          git push origin HEAD:$TEMP_BRANCH
 
-          git add package.json
-          git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }} and update changelog"
-          git push origin main
+      - name: Create PR to main
+        run: |
+          PR_RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H 'Content-Type: application/json' \
+            https://api.github.com/repos/${{ github.repository }}/pulls \
+            -d '{
+              "title": "Automated bump version ${{ steps.get_tag_name.outputs.tag }}",
+              "head": "'$TEMP_BRANCH'",
+              "base": "main",
+              "body": "Bump version to ${{ steps.get_tag_name.outputs.tag }}"
+            }')
+
+          PR_NUMBER=$(echo $PR_RESPONSE | jq .number)
+          echo "Pull Request created: $PR_NUMBER"
+
+      - name: Merge pull request to main
+        if: success()
+        run: |
+          curl -s -X PUT \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/merge \
+            -d '{"merge_method": "squash"}'
 
       - name: Publish release with auto-generated notes
         run: |
