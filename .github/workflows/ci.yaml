@@ -50,8 +50,7 @@ jobs:
         run: |
           TEMP_BRANCH="release-$(date +%Y%m%d%H%M%S)"
           echo "branch=$TEMP_BRANCH" >> "$GITHUB_OUTPUT"
-
-          git push origin HEAD:$TEMP_BRANCH
+          git push --follow-tags origin HEAD:$TEMP_BRANCH
 
       - name: Create PR to main
         id: pr
@@ -67,7 +66,7 @@ jobs:
               "base": "main",
               "body": "Bump version to ${{ steps.get_tag_name.outputs.tag }}"
             }')
-
+          echo $PR_RESPONSE
           PR_NUMBER=$(echo $PR_RESPONSE | jq .number)
           echo "Pull Request created: $PR_NUMBER"
           echo "PR=$PR_NUMBER" >> "$GITHUB_OUTPUT"
