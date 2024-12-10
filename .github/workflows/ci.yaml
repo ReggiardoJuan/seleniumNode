@@ -98,4 +98,4 @@ jobs:
 
   generate-changelog:
     needs: [release]
-    uses: .github/workflows/changelog.yaml
+    uses: ./.github/workflows/workflow_reusable.yml
