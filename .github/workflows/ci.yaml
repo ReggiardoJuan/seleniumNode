@@ -53,6 +53,7 @@ jobs:
 
       - name: Create PR to main
         id: pr
+        continue-on-error: false
         run: |
           PR_RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -94,3 +95,7 @@ jobs:
               "prerelease": false,
               "generate_release_notes": true
             }'
+
+  generate-changelog:
+    needs: [release]
+    uses: .github/workflows/changelog.yaml
