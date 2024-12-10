@@ -98,4 +98,4 @@ jobs:
 
   generate-changelog:
     needs: [release]
-    uses: ./.github/workflows/workflow_reusable.yml
+    uses: ReggiardoJuan/seleniumNode/.github/workflows/workflow_reusable.yml@main
