@@ -65,7 +65,6 @@ jobs:
               "base": "main",
               "body": "Bump version to ${{ steps.get_tag_name.outputs.tag }}"
             }')
-          echo $PR_RESPONSE
           PR_NUMBER=$(echo $PR_RESPONSE | jq .number)
           echo "Pull Request created: $PR_NUMBER"
           echo "PR=$PR_NUMBER" >> "$GITHUB_OUTPUT"
