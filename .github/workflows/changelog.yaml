@@ -1,8 +1,7 @@
 name: Generate changelog
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
@@ -14,8 +13,8 @@ jobs:
         fetch-depth: 0
     - uses: BobAnkh/auto-generate-changelog@v1.2.5
       with:
-        ACCESS_TOKEN: ${{secrets.token}}
-        REPO_NAME: ${{github.repository}}
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_NAME: ${{ github.repository }}
         PATH: 'CHANGELOG.md'
         COMMIT_MESSAGE: 'docs(CHANGELOG): update release notes'
         TYPE: 'feat:Feature,fix:Bug Fixes,docs:Documentation,refactor:Refactor,perf:Performance Improvements,chore:Chores'
