@@ -1,13 +1,18 @@
-name: Generate release notes and changelog
+name: CI
+
 on:
   pull_request:
-    types:
-      - closed
+    branches:
+      - main
+    types: [closed]
 
-permissions: write-all
+env:
+  NODE_OPTIONS: --max-old-space-size=16384
 
 jobs:
   release:
+    permissions: write-all
+    name: Generate release
     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
@@ -53,49 +58,38 @@ jobs:
 
       - name: Create PR to main
         id: pr
-        continue-on-error: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            -H 'Content-Type: application/json' \
-            https://api.github.com/repos/${{ github.repository }}/pulls \
-            -d '{
-              "title": "Automated bump version ${{ steps.get_tag_name.outputs.tag }}",
-              "head": "${{ steps.branch.outputs.branch }}",
-              "base": "main",
-              "body": "Bump version to ${{ steps.get_tag_name.outputs.tag }}"
-            }')
-          PR_NUMBER=$(echo $PR_RESPONSE | jq .number)
+          gh auth setup-git
+          PR_NUMBER=$(gh pr create \
+            --title "Automated bump version ${{ steps.get_tag_name.outputs.tag }}" \
+            --body "Bump version to ${{ steps.get_tag_name.outputs.tag }}" \
+            --base main \
+            --head "${{ steps.branch.outputs.branch }}" \
+            --json number -q .number)
+          if [ -z "$PR_NUMBER" ]; then
+            echo "Failed to create PR"
+            echo $PR_RESPONSE
+            exit 1
+          fi
           echo "Pull Request created: $PR_NUMBER"
           echo "PR=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
-      - name: Merge pull request to main
-        if: success()
+      - name: Merge pull request with admin rights
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -s -X PUT \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.pr.outputs.PR }}/merge \
-            -d '{"merge_method": "squash"}'
+          gh pr merge ${{ steps.pr.outputs.PR }} --squash --admin
 
       - name: Publish release with auto-generated notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/releases \
-            -d '{
-              "tag_name": "${{ steps.get_tag_name.outputs.tag }}",
-              "target_commitish": "main",
-              "name": "${{ steps.get_tag_name.outputs.tag }}",
-              "draft": false,
-              "prerelease": false,
-              "generate_release_notes": true
-            }'
-
+          gh release create "${{ steps.get_tag_name.outputs.tag }}" \
+            --title "${{ steps.get_tag_name.outputs.tag }}" \
+            --generate-notes \
+            --target main
   generate-changelog:
     needs: [release]
     uses: ReggiardoJuan/seleniumNode/.github/workflows/changelog.yml@main
