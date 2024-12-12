@@ -92,4 +92,4 @@ jobs:
             --target main
   generate-changelog:
     needs: [release]
-    uses: RESIDECOMPANIES/3sixty-e2e/.github/workflows/changelog.yml@main
+    uses: ReggiardoJuan/seleniumNode/.github/workflows/changelog.yml@main
