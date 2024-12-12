@@ -9,9 +9,10 @@ on:
 env:
   NODE_OPTIONS: --max-old-space-size=16384
 
+permissions: write-all
+
 jobs:
   release:
-    permissions: write-all
     name: Generate release
     if: ${{ github.event.pull_request.merged && github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
