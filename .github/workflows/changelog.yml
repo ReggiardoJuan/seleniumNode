@@ -1,21 +1,19 @@
 name: Generate changelog
 on:
-  release:
-    types: [ published ]
-  workflow_dispatch:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   generate-changelog:
-    runs-on: ubuntu-latest
     permissions: write-all
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - uses: BobAnkh/auto-generate-changelog@v1.2.5
       with:
-        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         REPO_NAME: ${{ github.repository }}
         PATH: 'CHANGELOG.md'
         COMMIT_MESSAGE: 'docs(CHANGELOG): update release notes'
