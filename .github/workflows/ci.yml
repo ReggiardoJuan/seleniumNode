@@ -44,6 +44,7 @@ jobs:
 
       - name: Bump version and commit
         run: |
+          npm --no-git-tag-version version from-git
           npx commit-and-tag-version --bumpFiles: package.json --skip.changelog --skip.commit
           git add package.json
           git commit -m "chore(release): bump version to ${{ steps.get_tag_name.outputs.tag }}"
