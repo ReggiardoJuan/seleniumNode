@@ -1,21 +1,23 @@
 # CHANGELOG
 
-## [v8.3.82](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.82) - 2024-12-10 04:04:16
+## [v8.3.92](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.92) - 2024-12-12 04:02:49
 
 ## What's Changed
-* Automated bump version v8.3.81 by @github-actions in https://github.com/ReggiardoJuan/seleniumNode/pull/145
-* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/146
-* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/147
-* ci: rename by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/148
-* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/149
+* Automated bump version v8.3.82 by @github-actions in https://github.com/ReggiardoJuan/seleniumNode/pull/150
+* Ci/autochangelog and ci by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/153
+* Ci/autochangelog and ci by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/154
+* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/155
+* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/156
 
 
-**Full Changelog**: https://github.com/ReggiardoJuan/seleniumNode/compare/v8.3.81...v8.3.82
+**Full Changelog**: https://github.com/ReggiardoJuan/seleniumNode/compare/v8.3.82...v8.3.92
 
 ### Chores
 
 - release:
-  - bump version to v8.3.81 (#145) ([900e7ff](https://github.com/ReggiardoJuan/seleniumNode/commit/900e7ff1e925c19dfc084cd9b65f7889fab74aed)) ([#145](https://github.com/ReggiardoJuan/seleniumNode/pull/145))
+  - bump version to v8.3.82 (#150) ([2185b5e](https://github.com/ReggiardoJuan/seleniumNode/commit/2185b5eacf1e24c5e6fab273ae38fb0aed3ef903)) ([#150](https://github.com/ReggiardoJuan/seleniumNode/pull/150))
+
+## [v8.3.82](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.82) - 2024-12-10 04:04:16
 
 ## [v8.3.81](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.81) - 2024-12-10 03:39:36
 
