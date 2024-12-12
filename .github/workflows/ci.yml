@@ -37,6 +37,7 @@ jobs:
           npm install commit-and-tag-version
 
       - name: Nivelate version
+        continue-on-error: true
         run: |
           npm --no-git-tag-version version from-git
 
@@ -98,6 +99,7 @@ jobs:
             --title "${{ steps.get_tag_name.outputs.tag }}" \
             --generate-notes \
             --target main
+
   generate-changelog:
     needs: [release]
     uses: ReggiardoJuan/seleniumNode/.github/workflows/changelog.yml@main
