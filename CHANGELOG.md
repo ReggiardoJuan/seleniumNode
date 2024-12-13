@@ -1,19 +1,21 @@
 # CHANGELOG
 
-## [v8.3.95](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.95) - 2024-12-12 05:21:16
+## [v8.3.96](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.96) - 2024-12-13 03:12:30
 
 ## What's Changed
-* Automated bump version v8.3.94 by @github-actions in https://github.com/ReggiardoJuan/seleniumNode/pull/161
-* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/162
-* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/163
+* Automated bump version v8.3.95 by @github-actions in https://github.com/ReggiardoJuan/seleniumNode/pull/164
+* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/165
+* ci: update autochangelog by @ReggiardoJuan in https://github.com/ReggiardoJuan/seleniumNode/pull/166
 
 
-**Full Changelog**: https://github.com/ReggiardoJuan/seleniumNode/compare/v8.3.94...v8.3.95
+**Full Changelog**: https://github.com/ReggiardoJuan/seleniumNode/compare/v8.3.95...v8.3.96
 
 ### Chores
 
 - release:
-  - bump version to v8.3.94 (#161) ([e92e558](https://github.com/ReggiardoJuan/seleniumNode/commit/e92e5582c530ee77e874c22124610b97ed2bdab0)) ([#161](https://github.com/ReggiardoJuan/seleniumNode/pull/161))
+  - bump version to v8.3.95 (#164) ([b5cccd5](https://github.com/ReggiardoJuan/seleniumNode/commit/b5cccd5172a6c93cb90d9aa4b8570b765284fe01)) ([#164](https://github.com/ReggiardoJuan/seleniumNode/pull/164))
+
+## [v8.3.95](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.95) - 2024-12-12 05:21:16
 
 ## [v8.3.94](https://github.com/ReggiardoJuan/seleniumNode/releases/tag/v8.3.94) - 2024-12-12 04:20:19
 
